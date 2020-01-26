@@ -1,12 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
  
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 import { TokenInterceptor } from './interceptor/token-interceptor';
+import { AppStoreModule } from './app-store/app-store.module';
+import { MenubarModule } from 'primeng/menubar';
+import { ButtonModule } from 'primeng/button'
 
 @NgModule({
   declarations: [
@@ -16,8 +17,9 @@ import { TokenInterceptor } from './interceptor/token-interceptor';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({}),
-    StoreDevtoolsModule.instrument()
+    AppStoreModule,
+    MenubarModule,
+    ButtonModule,
   ],
   providers: [
     {
@@ -26,6 +28,7 @@ import { TokenInterceptor } from './interceptor/token-interceptor';
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: []
 })
 export class AppModule { }

@@ -22,7 +22,7 @@ export class AuthService {
     return localStorage.getItem('idea_token');
   }
 
-  set token(value: string) {
+  saveToken(value: string) {
     if ( value ) {
       localStorage.setItem('idea_token', value);
     } else {
