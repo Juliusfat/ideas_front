@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Idea } from '@app/models/idea';
 import { User } from '@app/models/user';
 import { ApiService } from '@app/services/api.service';
 
@@ -10,20 +9,21 @@ import { ApiService } from '@app/services/api.service';
 })
 export class IdeasComponent implements OnInit {
   
-  ideas: Idea[];
+  //ideas: Idea[];
   loader: boolean;
   currentUser: User;
+  page=1;
+  ideas: any;
 
   constructor( private apiService: ApiService) {}
 
   ngOnInit() {
-    this.apiService.getIdeas().subscribe(
-      (ideas: Idea[])=>{
-        if(ideas) {
-          this.ideas = ideas;
-        }
-      }
-    );
+  this.apiService.getIdeas(this.page).subscribe(
+    result => {
+      this.ideas = result;
+    }
+  );
+
 
   }
 

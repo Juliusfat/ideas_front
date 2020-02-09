@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Idea } from '@app/models/idea';
+import { IdeaModel } from '@app/models/idea';
 
 @Component({
   selector: 'app-idea',
@@ -8,7 +8,7 @@ import { Idea } from '@app/models/idea';
 })
 export class IdeaComponent implements OnInit {
   @Input()
-  idea: Idea;
+  idea: IdeaModel;
   @Input()
   displayOptions: boolean = false;
 

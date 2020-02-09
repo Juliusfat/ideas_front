@@ -1,7 +1,7 @@
 import { User } from './user';
 import { Comment } from './comment'
 
-export interface Idea {
+export interface IdeaModel {
     id: string;
     created: Date;
     updated: Date;

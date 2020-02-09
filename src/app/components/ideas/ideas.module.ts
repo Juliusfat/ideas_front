@@ -5,6 +5,7 @@ import { IdeasRoutingModule } from './ideas-routing.module';
 import { IdeasComponent } from './ideas.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { IdeaModule } from '../idea/idea/idea.module';
+import { ButtonModule } from 'primeng/button';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { IdeaModule } from '../idea/idea/idea.module';
     CommonModule,
     IdeasRoutingModule,
     ProgressSpinnerModule,
-    IdeaModule
+    IdeaModule,
+    ButtonModule
   ]
 })
 export class IdeasModule { }

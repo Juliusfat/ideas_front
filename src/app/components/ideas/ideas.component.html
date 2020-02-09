@@ -1,5 +1,5 @@
 <div class="Ideas-options">
-    <button pButton icon="fa fa-arrow-left"></button>
+    <button pButton type="button" icon="fa fa-arrow-left"></button>
   
     <button
       *ngIf="currentUser"
@@ -11,10 +11,10 @@
   
     <button pButton icon="fa fa-arrow-right"></button>
   </div>
+ 
   
-  <p-progressSpinner *ngIf="loader"></p-progressSpinner>
   
-  <div *ngIf="!loader">
+  <div *ngIf="ideas else spinner">
     <app-idea
       *ngFor="let idea of ideas"
       [idea]="idea"
@@ -22,4 +22,7 @@
       (onUpvote)="upvote(idea.id)"
       (onDownvote)="downvote(idea.id)"
     ></app-idea>
+    <ng-template #spinner>
+    <p-progressSpinner ></p-progressSpinner>
+  </ng-template>
   </div>

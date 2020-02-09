@@ -3,9 +3,13 @@ import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
+import { map, shareReplay} from 'rxjs/operators';
 import { User } from '@app/models/user';
-import { Idea, IdeaDTO } from '@app/models/idea';
+import { IdeaModel, IdeaDTO } from '@app/models/idea';
 import { Comment } from '@app/models/comment';
+import { Apollo } from 'apollo-angular';
+import { GET_ALL_IDEAS } from '@app/graphql/query';
+import { Idea, Query } from '../graphql/types';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +18,7 @@ export class ApiService {
 
   private api: string = environment.api_server + '/api';
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private http: HttpClient, private auth: AuthService, private apollo: Apollo) {}
 
   private request(
     method: string,
@@ -36,29 +40,37 @@ export class ApiService {
     return this.request('GET', `users/${username}`);
   }
 
-  getIdeas(page?: number): Observable<Idea[]> {
-    const endpoint = page ? `ideas?page=${page}` : 'ideas';
-    return this.request('GET', endpoint);
+  getIdeas(page: number) {
+    //const endpoint = page ? `ideas?page=${page}` : 'ideas';
+    //return this.request('GET', endpoint);
+    return this.apollo.watchQuery<Query>({
+      query : GET_ALL_IDEAS,
+      variables: {
+        page: page
+      }
+    })
+    .valueChanges
+    .pipe(map(result => result.data.ideas));
   }
 
-  getNewestIdeas(page?: number): Observable<Idea[]> {
+  getNewestIdeas(page?: number): Observable<IdeaModel[]> {
     const endpoint = page ? `ideas/newest?page=${page}` : `ideas/newest`;
     return this.request('GET', endpoint);
   }
 
-  getIdea(id: string): Observable<Idea> {
+  getIdea(id: string): Observable<IdeaModel> {
     return this.request('GET', `ideas/${id}`);
   }
 
-  createIdea(data: IdeaDTO): Observable<Idea> {
+  createIdea(data: IdeaDTO): Observable<IdeaModel> {
     return this.request('POST', `ideas/`, data);
   }
 
-  updateIdea(id: string, data: Partial<IdeaDTO>): Observable<Idea> {
+  updateIdea(id: string, data: Partial<IdeaDTO>): Observable<IdeaModel> {
     return this.request('PUT', `ideas/${id}`, data);
   }
 
-  deleteIdea(id: string): Observable<Idea> {
+  deleteIdea(id: string): Observable<IdeaModel> {
     return this.request('DELETE', `ideas/${id}`);
   }
 
